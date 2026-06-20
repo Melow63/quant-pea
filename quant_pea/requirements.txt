@@ -1,0 +1,51 @@
+# Core
+yfinance>=0.2
+pandas>=2.2
+numpy>=1.26
+duckdb>=0.10
+pyarrow>=15
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5
+fredapi>=0.5
+
+# Quant
+scipy>=1.12
+statsmodels>=0.14
+scikit-learn>=1.4
+xgboost>=2.0
+lightgbm>=4.3
+hmmlearn>=0.3
+arch>=6
+numba>=0.59
+
+# NLP (optionnel, lourd — commenter si RAM < 8GB)
+transformers>=4.39
+torch>=2.2
+sentencepiece>=0.2
+
+# Optimization
+cvxpy>=1.4
+riskfolio-lib>=6
+
+# UI
+streamlit>=1.32
+plotly>=5.20
+matplotlib>=3.8
+seaborn>=0.13
+
+# Export
+openpyxl>=3.1
+reportlab>=4.1
+jinja2>=3.1
+weasyprint>=61
+
+# Utils
+python-dotenv>=1.0
+loguru>=0.7
+pydantic>=2.6
+tqdm>=4.66
+joblib>=1.3
+click>=8.1
+rich>=13
+quantstats>=0.0.62

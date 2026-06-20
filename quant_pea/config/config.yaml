@@ -1,0 +1,72 @@
+database:
+  path: "data/quant_pea.duckdb"
+  parquet_dir: "data/processed"
+
+portfolio:
+  currency: "EUR"
+  benchmark_ticker: "CW8.PA"       # Amundi MSCI World — ton benchmark actuel
+  risk_free_rate: 0.035            # OAT 10 ans approximatif
+  tax_rate_pea: 0.172              # Prélèvements sociaux PEA après 5 ans
+  pea_max_contribution: 150000     # Plafond PEA
+
+data_sources:
+  yahoo_finance:
+    period_history: "10y"
+    interval: "1d"
+  fred:
+    api_key_env: "FRED_API_KEY"    # Gratuit sur fred.stlouisfed.org
+    series:
+      - "DGS10"                    # US 10Y yield
+      - "T10YIE"                   # US 10Y inflation breakeven
+      - "VIXCLS"                   # VIX
+      - "DEXUSEU"                  # EUR/USD
+  ecb:
+    enabled: true                  # BCE data, 100% gratuit
+
+factor_models:
+  lookback_days: 756               # 3 ans de données pour calibration
+  rebalance_freq: "monthly"
+  factors:
+    - "market"
+    - "smb"
+    - "hml"
+    - "mom"
+    - "rmw"
+    - "cma"
+    - "low_vol"
+    - "quality"
+
+risk:
+  var_confidence: [0.95, 0.99]
+  var_horizon_days: [1, 10, 21]
+  monte_carlo_simulations: 10000
+  historical_lookback_days: 756
+  garch_model: "EGARCH"            # meilleur pour les queues épaisses
+
+optimization:
+  methods:
+    - "black_litterman"
+    - "hrp"
+    - "min_cvar"
+    - "robust_mvo"
+    - "equal_risk"
+  max_weight: 0.35                 # Concentration max par ligne
+  min_weight: 0.02
+  transaction_cost_bps: 15         # 0.15% aller — réaliste Boursobank
+
+backtest:
+  start_date: "2015-01-01"
+  walk_forward_train_months: 36
+  walk_forward_test_months: 6
+  min_periods: 252
+  slippage_bps: 5
+
+nlp:
+  model: "ProsusAI/finbert"        # FinBERT — gratuit HuggingFace
+  batch_size: 16
+  max_news_age_days: 30
+
+logging:
+  level: "INFO"
+  file: "logs/quant_pea.log"
+  rotation: "10 MB"
